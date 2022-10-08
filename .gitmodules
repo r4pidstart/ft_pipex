@@ -1,0 +1,3 @@
+[submodule "pipex/ft_mylibft"]
+	path = pipex/ft_mylibft
+	url = http://github.com/r4pidstart/ft_mylibft
