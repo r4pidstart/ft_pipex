@@ -1,6 +1,8 @@
 all: fclean
-	make -C push_swap all
+	make -C pipex all
 fclean:
-	make -C push_swap fclean
+	make -C pipex fclean
 bonus:
-	make -C push_swap bonus
+	make -C pipex bonus
+t:
+	cc test.c -o test

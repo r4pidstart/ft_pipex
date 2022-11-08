@@ -6,16 +6,16 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2022/10/08 18:53:20 by tjo              ###   ########.fr        #
+#    Updated: 2022/11/09 01:46:52 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = push_swap
-CFLAGS = -Wall -Wextra -Werror
+NAME = pipex
+CFLAGS = -Wall -Wextra -Werror -g3 -ggdb
 
 LIBFT = ft_mylibft/libft.a
 LIBFT_SRCS = ft_mylibft
-SRCS = *.c
+SRCS = ft_main.c
 
 ifdef BONUS
 	NAME = checker
@@ -28,7 +28,7 @@ endif
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(addprefix $(FOLDER), $(SRCS:.c=.o))
-	clang -Wall -Wextra -Werror -g3 -ggdb \
+	cc $(CFLAGS) \
 	-o ./$(NAME) \
 	$(addprefix $(FOLDER), $(SRCS)) \
 	-L$(LIBFT_SRCS) -lft
@@ -37,7 +37,7 @@ $(LIBFT):
 	make -C $(LIBFT_SRCS) all
 
 %.o: %.c
-	gcc $(CFLAGS) -c $^ -o $@
+	cc $(CFLAGS) -c $^ -o $@
 	
 bonus:
 	$(MAKE) BONUS=1
