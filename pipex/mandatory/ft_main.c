@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/09 01:57:52 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/09 02:33:40 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,11 @@ int	main(int argc, char **argv)
 		return (!ft_printf("invalid arguments\n"));
 	str = (t_st){.infile = argv[1], .outfile = argv[argc - 1]};
 	if (ft_strncmp(argv[1], "here_doc", -1) == 0)
+	{
+		if (argc < 6)
+			return (!ft_printf("invalid arguments\n"));
 		if (prepare_heredoc(&str, argv[2]))
 			error_handling(&str);
+	}
 	piping(&str, argc, argv);
 }
