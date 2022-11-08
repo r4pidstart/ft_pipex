@@ -6,17 +6,21 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/09 02:33:40 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/09 03:51:11 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"ft_header.h"
 
-void	error_handling(t_st *str)
+void	error_handling(t_st *str, int type)
 {
+	ft_fprintf(STDERR_FILENO, "some error occured");
 	if (str->heredoc)
 		unlink(str->infile);
-	strerror(errno);
+	if (type == NO_PATH)
+		ft_fprintf(STDERR_FILENO, "Cannot find a path.\n");
+	else
+		strerror(errno);
 	exit(1);
 }
 
@@ -57,7 +61,7 @@ int	main(int argc, char **argv)
 		if (argc < 6)
 			return (!ft_printf("invalid arguments\n"));
 		if (prepare_heredoc(&str, argv[2]))
-			error_handling(&str);
+			error_handling(&str, 0);
 	}
 	piping(&str, argc, argv);
 }

@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:06 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/09 02:06:58 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/09 03:05:44 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,15 @@ typedef struct s_st
 	int		outfile_fd;
 }t_st;
 
+enum e_type
+{
+	NO_PATH = 1
+};
+
 /* ft_main.c */
-void	error_handling(t_st *str);
+void	error_handling(t_st *str, int type);
+
+/* ft_piping.c */
+void	piping(t_st *str, int argc, char **argv);
 
 #endif
