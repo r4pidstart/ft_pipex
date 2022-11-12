@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 17:28:43 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 17:34:29 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	error_handling(t_st *str, int type)
 int	prepare_heredoc(t_st *str, char *limiter)
 {
 	int		fd;
+	int		lim_l;
 	char	*tmpline;
 
 	str->heredoc = 1;
@@ -47,7 +48,8 @@ int	prepare_heredoc(t_st *str, char *limiter)
 	tmpline = get_next_line(0);
 	if (!tmpline)
 		return (1);
-	while (ft_strncmp(limiter, tmpline, ft_strlen(tmpline) - 1)) // tmpline's len(limiter)-1 letter is '\n'?
+	lim_l = ft_strlen(limiter);
+	while (ft_strncmp(limiter, tmpline, lim_l) || tmpline[lim_l] != '\n')
 	{
 		ft_fprintf(fd, "%s", tmpline);
 		free(tmpline);
