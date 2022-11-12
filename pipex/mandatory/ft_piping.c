@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:45:46 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/09 04:21:16 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 16:04:29 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	exec(t_st *str, char *cmd)
 	parsed = ft_split(cmd, ' ');
 	if (access(cmd, X_OK) == 0)
 		if (execve(parsed[0], &parsed[0], environ) == -1)
-			error_handling(str, 0);
+			error_handling(str, 9);
 	if (execve(find_path(str, parsed[0]), &parsed[0], environ) == -1)
-		error_handling(str, 0);
+		error_handling(str, 10);
 }
 
 void	make_child(t_st *str, char *cmd)
@@ -59,19 +59,22 @@ void	make_child(t_st *str, char *cmd)
 	pid_t	pid;
 	int		fd[2];
 
+	if (pipe(fd) == -1)
+		error_handling(str, 4);
 	pid = fork();
-	if (pid == -1 || pipe(fd) == -1 || dup2(STDIN_FILENO, fd[0]) == -1)
-		error_handling(str, 0);
+	if (pid == -1 || dup2(STDIN_FILENO, fd[0]) == -1)
+		error_handling(str, 5);
 	if (pid == 0)
 	{
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
-			error_handling(str, 0);
+			error_handling(str, 6);
 		exec(str, cmd);
+		fprintf(stderr, "test");
 	}
+	waitpid(pid, 0, 0);
 	if (dup2(fd[0], STDIN_FILENO) == -1 || \
 		close(fd[0]) == -1 || close(fd[1]) == -1)
-		error_handling(str, 0);
-	waitpid(pid, 0, 0);
+		error_handling(str, 7);
 }
 
 void	piping(t_st *str, int argc, char **argv)
@@ -82,13 +85,13 @@ void	piping(t_st *str, int argc, char **argv)
 	str->outfile_fd = open(str->outfile, O_WRONLY | \
 		!str->heredoc * O_TRUNC | O_CREAT, 0777);
 	if (!str->infile_fd || !str->outfile_fd)
-		error_handling(str, 0);
+		error_handling(str, 1);
 	idx = 2 + str->heredoc;
 	if (dup2(str->infile_fd, STDIN_FILENO) == -1)
-		error_handling(str, 0);
+		error_handling(str, 2);
 	while (idx < argc - 2)
 		make_child(str, argv[idx++]);
 	if (dup2(str->outfile_fd, STDOUT_FILENO) == -1)
-		error_handling(str, 0);
+		error_handling(str, 3);
 	exec(str, argv[idx]);
 }
