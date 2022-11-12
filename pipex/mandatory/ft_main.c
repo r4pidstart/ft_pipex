@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/09 03:51:11 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 15:53:26 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	error_handling(t_st *str, int type)
 		ft_fprintf(STDERR_FILENO, "Cannot find a path.\n");
 	else
 		strerror(errno);
+	ft_fprintf(STDERR_FILENO, ": %d\n", type);
 	exit(1);
 }
 
@@ -53,15 +54,15 @@ int	main(int argc, char **argv)
 {
 	t_st	str;
 
-	if (argc < 5)
-		return (!ft_printf("invalid arguments\n"));
+	// if (argc < 5)
+	// 	return (!ft_printf("invalid arguments\n"));
 	str = (t_st){.infile = argv[1], .outfile = argv[argc - 1]};
 	if (ft_strncmp(argv[1], "here_doc", -1) == 0)
 	{
 		if (argc < 6)
 			return (!ft_printf("invalid arguments\n"));
 		if (prepare_heredoc(&str, argv[2]))
-			error_handling(&str, 0);
+			error_handling(&str, 8);
 	}
 	piping(&str, argc, argv);
 }
