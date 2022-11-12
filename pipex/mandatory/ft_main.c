@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 17:26:56 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 17:28:43 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,6 @@ int	main(int argc, char **argv)
 			error_handling(&str, HEREDOC_IN);
 	}
 	piping(&str, argc, argv);
+	if (str.heredoc)
+		unlink(str.infile);
 }
