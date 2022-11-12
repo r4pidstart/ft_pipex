@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:45:46 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 17:47:32 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 18:03:58 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	make_child(t_st *str, char *cmd)
 			error_handling(str, DUP_ERR);
 		exec(str, cmd);
 	}
-	waitpid(pid, 0, 0);
+	waitpid(pid, 0, WNOHANG);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
 		error_handling(str, DUP_ERR);
 	if (close(fd[1]) == -1 || close(fd[0]) == -1)
