@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 15:53:26 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 17:00:56 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	prepare_heredoc(t_st *str, char *limiter)
 	tmpline = get_next_line(0);
 	if (!tmpline)
 		return (1);
-	while (ft_strncmp(limiter, tmpline, ft_strlen(tmpline) - 1))
+	while (ft_strncmp(limiter, tmpline, ft_strlen(tmpline) - 1)) // tmpline's len(limiter)-1 letter is '\n'?
 	{
 		ft_fprintf(fd, "%s", tmpline);
 		free(tmpline);
@@ -54,8 +54,8 @@ int	main(int argc, char **argv)
 {
 	t_st	str;
 
-	// if (argc < 5)
-	// 	return (!ft_printf("invalid arguments\n"));
+	if (argc < 5)
+		return (!ft_printf("invalid arguments\n"));
 	str = (t_st){.infile = argv[1], .outfile = argv[argc - 1]};
 	if (ft_strncmp(argv[1], "here_doc", -1) == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:45:46 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 16:04:51 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 17:00:50 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,15 @@ void	make_child(t_st *str, char *cmd)
 	if (pipe(fd) == -1)
 		error_handling(str, 4);
 	pid = fork();
-	if (pid == -1 || dup2(STDIN_FILENO, fd[0]) == -1)
-		error_handling(str, 5);
 	if (pid == 0)
 	{
-		if (dup2(fd[1], STDOUT_FILENO) == -1)
+		if (close(fd[0]) == -1 || dup2(fd[1], STDOUT_FILENO) == -1)
 			error_handling(str, 6);
 		exec(str, cmd);
-		fprintf(stderr, "test");
 	}
 	waitpid(pid, 0, 0);
-	if (dup2(fd[0], STDIN_FILENO) == -1 || \
-		close(fd[0]) == -1 || close(fd[1]) == -1)
+	if (dup2(fd[0], STDIN_FILENO) == -1 || close(fd[1]) == -1 \
+		|| close(fd[0]) == -1)
 		error_handling(str, 7);
 }
 
@@ -81,6 +78,7 @@ void	piping(t_st *str, int argc, char **argv)
 {
 	int	idx;
 
+	dup2(STDIN_FILENO, 9);
 	str->infile_fd = open(str->infile, O_RDONLY);
 	str->outfile_fd = open(str->outfile, O_WRONLY | \
 		!str->heredoc * O_TRUNC | O_CREAT, 0777);
