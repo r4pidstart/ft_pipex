@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 17:34:29 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 17:43:41 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	error_handling(t_st *str, int type)
 		ft_fprintf(STDERR_FILENO, "Cannot execute the command.\n");
 	else if (type == NO_PATH)
 		ft_fprintf(STDERR_FILENO, "Cannot find a path.\n");
-	strerror(errno);
+	if (errno)
+		ft_fprintf(STDERR_FILENO, "%s\n", strerror(errno));
 	exit(1);
 }
 
@@ -76,6 +77,4 @@ int	main(int argc, char **argv)
 			error_handling(&str, HEREDOC_IN);
 	}
 	piping(&str, argc, argv);
-	if (str.heredoc)
-		unlink(str.infile);
 }
