@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:45:46 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 16:04:29 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 16:04:51 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	exec(t_st *str, char *cmd)
 	char	**parsed;
 
 	parsed = ft_split(cmd, ' ');
-	if (access(cmd, X_OK) == 0)
+	if (access(parsed[0], X_OK) == 0)
 		if (execve(parsed[0], &parsed[0], environ) == -1)
 			error_handling(str, 9);
 	if (execve(find_path(str, parsed[0]), &parsed[0], environ) == -1)
