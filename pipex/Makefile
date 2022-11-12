@@ -6,7 +6,7 @@
 #    By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 12:48:31 by tjo               #+#    #+#              #
-#    Updated: 2022/11/09 03:03:33 by tjo              ###   ########.fr        #
+#    Updated: 2022/11/12 18:06:14 by tjo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ LIBFT_SRCS = ft_mylibft
 SRCS = ft_main.c ft_piping.c
 
 ifdef BONUS
-	NAME = checker
+	NAME = pipex
 	FOLDER = bonus/
-	SRCS = 
+	SRCS = ft_main_bonus.c ft_piping_bonus.c
 else
 	FOLDER = mandatory/
 endif
