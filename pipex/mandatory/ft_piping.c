@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:45:46 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 17:00:50 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 17:20:12 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	exec(t_st *str, char *cmd)
 	parsed = ft_split(cmd, ' ');
 	if (access(parsed[0], X_OK) == 0)
 		if (execve(parsed[0], &parsed[0], environ) == -1)
-			error_handling(str, 9);
+			error_handling(str, EXECVE_ERR);
 	if (execve(find_path(str, parsed[0]), &parsed[0], environ) == -1)
-		error_handling(str, 10);
+		error_handling(str, EXECVE_ERR);
 }
 
 void	make_child(t_st *str, char *cmd)
@@ -60,18 +60,21 @@ void	make_child(t_st *str, char *cmd)
 	int		fd[2];
 
 	if (pipe(fd) == -1)
-		error_handling(str, 4);
+		error_handling(str, PIPE_ERR);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (close(fd[0]) == -1 || dup2(fd[1], STDOUT_FILENO) == -1)
-			error_handling(str, 6);
+		if (close(fd[0]) == -1)
+			error_handling(str, FD_CLOSE);
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			error_handling(str, DUP_ERR);
 		exec(str, cmd);
 	}
 	waitpid(pid, 0, 0);
-	if (dup2(fd[0], STDIN_FILENO) == -1 || close(fd[1]) == -1 \
-		|| close(fd[0]) == -1)
-		error_handling(str, 7);
+	if (dup2(fd[0], STDIN_FILENO) == -1)
+		error_handling(str, DUP_ERR);
+	if (close(fd[1]) == -1 || close(fd[0]) == -1)
+		error_handling(str, FD_CLOSE);
 }
 
 void	piping(t_st *str, int argc, char **argv)
@@ -83,13 +86,13 @@ void	piping(t_st *str, int argc, char **argv)
 	str->outfile_fd = open(str->outfile, O_WRONLY | \
 		!str->heredoc * O_TRUNC | O_CREAT, 0777);
 	if (!str->infile_fd || !str->outfile_fd)
-		error_handling(str, 1);
+		error_handling(str, INOUT_FD);
 	idx = 2 + str->heredoc;
 	if (dup2(str->infile_fd, STDIN_FILENO) == -1)
-		error_handling(str, 2);
+		error_handling(str, DUP_ERR);
 	while (idx < argc - 2)
 		make_child(str, argv[idx++]);
 	if (dup2(str->outfile_fd, STDOUT_FILENO) == -1)
-		error_handling(str, 3);
+		error_handling(str, DUP_ERR);
 	exec(str, argv[idx]);
 }

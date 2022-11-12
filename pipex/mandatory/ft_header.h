@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:06 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/09 03:05:44 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/12 17:20:19 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,13 @@ typedef struct s_st
 
 enum e_type
 {
-	NO_PATH = 1
+	HEREDOC_IN = 1,
+	INOUT_FD = 2,
+	DUP_ERR = 3,
+	PIPE_ERR = 4,
+	FD_CLOSE = 5,
+	EXECVE_ERR = 6,
+	NO_PATH = 7
 };
 
 /* ft_main.c */
