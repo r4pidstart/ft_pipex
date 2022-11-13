@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:45:46 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 18:03:58 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/13 18:12:47 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,8 @@ void	piping(t_st *str, int argc, char **argv)
 {
 	int	idx;
 
-	dup2(STDIN_FILENO, 9);
 	str->infile_fd = open(str->infile, O_RDONLY);
-	str->outfile_fd = open(str->outfile, O_WRONLY | \
+	str->outfile_fd = open(str->outfile, O_WRONLY | O_APPEND | \
 		!str->heredoc * O_TRUNC | O_CREAT, 0777);
 	if (!str->infile_fd || !str->outfile_fd)
 		error_handling(str, INOUT_FD);
