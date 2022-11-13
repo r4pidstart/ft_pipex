@@ -6,33 +6,19 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:04 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 18:05:08 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/13 18:26:37 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"ft_header.h"
 
-void	error_handling(t_st *str, int type)
+void	error_handling(t_st *str)
 {
 	if (str->heredoc)
 		unlink(str->infile);
-	if (type == HEREDOC_IN)
-		ft_fprintf(STDERR_FILENO, "Cannot make here_doc tmp file.\n");
-	else if (type == INOUT_FD)
-		ft_fprintf(STDERR_FILENO, "Cannot find in/out files.\n");
-	else if (type == DUP_ERR)
-		ft_fprintf(STDERR_FILENO, "Cannot duplicate the file descriptor.\n");
-	else if (type == PIPE_ERR)
-		ft_fprintf(STDERR_FILENO, "Cannot make a pipe.\n");
-	else if (type == FD_CLOSE)
-		ft_fprintf(STDERR_FILENO, "Cannot close the file descriptor.\n");
-	else if (type == EXECVE_ERR)
-		ft_fprintf(STDERR_FILENO, "Cannot execute the command.\n");
-	else if (type == NO_PATH)
-		ft_fprintf(STDERR_FILENO, "Cannot find a path.\n");
 	if (errno)
-		ft_fprintf(STDERR_FILENO, "%s\n", strerror(errno));
-	exit(1);
+		ft_fprintf(STDERR_FILENO, "pipex: %s\n", strerror(errno));
+	exit(errno);
 }
 
 int	prepare_heredoc(t_st *str, char *limiter)
@@ -74,7 +60,7 @@ int	main(int argc, char **argv)
 		if (argc < 6)
 			return (!ft_printf("invalid arguments\n"));
 		if (prepare_heredoc(&str, argv[2]))
-			error_handling(&str, HEREDOC_IN);
+			error_handling(&str);
 	}
 	piping(&str, argc, argv);
 }
