@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:45:46 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/13 18:26:12 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/13 18:39:48 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*find_path(t_st *str, char *cmd)
 		idx++;
 	paths = ft_split(environ[idx] + 5, ':');
 	idx = 0;
-	tmp[2] = 0;
+	tmp[2] = "";
 	if (!paths)
 		error_handling(str);
 	while (paths[idx])
