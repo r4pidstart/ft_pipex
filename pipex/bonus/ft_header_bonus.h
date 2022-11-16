@@ -6,7 +6,7 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:50:06 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/12 18:05:54 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/16 22:01:54 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,8 @@ typedef struct s_st
 	int		outfile_fd;
 }t_st;
 
-enum e_type
-{
-	HEREDOC_IN = 1,
-	INOUT_FD = 2,
-	DUP_ERR = 3,
-	PIPE_ERR = 4,
-	FD_CLOSE = 5,
-	EXECVE_ERR = 6,
-	NO_PATH = 7
-};
-
 /* ft_main.c */
-void	error_handling(t_st *str, int type);
+void	error_handling(t_st *str);
 
 /* ft_piping.c */
 void	piping(t_st *str, int argc, char **argv);
