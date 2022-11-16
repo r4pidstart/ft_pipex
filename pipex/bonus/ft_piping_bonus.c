@@ -6,13 +6,20 @@
 /*   By: tjo <tjo@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:45:46 by tjo               #+#    #+#             */
-/*   Updated: 2022/11/16 22:01:42 by tjo              ###   ########.fr       */
+/*   Updated: 2022/11/16 22:39:18 by tjo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"ft_header_bonus.h"
 
 extern char	**environ;
+
+void	free3(void *a, void *b, void *c)
+{
+	free(a);
+	free(b);
+	free(c);
+}
 
 char	*find_path(t_st *str, char *cmd)
 {
@@ -25,7 +32,7 @@ char	*find_path(t_st *str, char *cmd)
 		idx++;
 	paths = ft_split(environ[idx] + 5, ':');
 	idx = 0;
-	tmp[2] = "";
+	tmp[2] = 0;
 	if (!paths)
 		error_handling(str);
 	while (paths[idx])
@@ -34,11 +41,11 @@ char	*find_path(t_st *str, char *cmd)
 		tmp[1] = ft_strjoin(tmp[0], cmd);
 		if (access(tmp[1], X_OK) == 0 && !tmp[2])
 			tmp[2] = ft_strdup(tmp[1]);
-		free(paths[idx++]);
-		free(tmp[0]);
-		free(tmp[1]);
+		free3(paths[idx++], tmp[0], tmp[1]);
 	}
 	free(paths);
+	if (!tmp[2])
+		tmp[2] = "";
 	return (tmp[2]);
 }
 
