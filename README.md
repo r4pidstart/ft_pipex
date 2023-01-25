@@ -20,10 +20,10 @@ YOU coded
 * This project is about handling pipes.
 
 * Your program will be executed as follows:
-> ./pipex file1 cmd1 cmd2 file2
+	> ./pipex file1 cmd1 cmd2 file2
 
 * It must behave exactly the same as the shell command below:
-> $> < file1 cmd1 | cmd2 > file2
+	> $> < file1 cmd1 | cmd2 > file2
 
 * You have to handle errors thoroughly. In no way your program should quit unexpectedly (segmentation fault, bus error, double free, and so forth).
 
